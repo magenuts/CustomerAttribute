@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenuts Pvt Ltd.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://magenuts.com/Magenuts-Commerce-License.txt
+ *
+ * @category   Magenuts
+ * @package    Magenuts_CustomerAttribute
+ * @author     Magenuts Extension Team
+ * @copyright  Copyright (c) 2019 Magenuts Pvt Ltd. ( https://magenuts.com )
+ * @license    https://magenuts.com/Magenuts-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Define provider class that was used in node dataSource/class -->
+    <virtualType name="CustomerAttributeGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">CustomerAttributeGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- collection resolves to standard collection class and filerPool defines new element: -->
+    <!-- This is used for filtering and searching. Used default values for this -->
+    <virtualType name="CustomerAttributeGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Register data source. In this case node name must match the one used in <dataSource /> node 
+    in listing xml and it resolves not to collection but to GridCollection class.-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="customer_attribute_listing_data_source" xsi:type="string">Magenuts\CustomerAttribute\Model\ResourceModel\Attribute\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magenuts\CustomerAttribute\Model\ResourceModel\Attribute\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">customer_eav_attribute</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Customer\Model\ResourceModel\Attribute</argument>
+        </arguments>
+    </type> 
+</config>
