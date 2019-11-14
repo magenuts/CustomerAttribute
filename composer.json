@@ -1,0 +1,35 @@
+{
+    "name": "magenuts/module-customer-attribute",
+    "description": "Manage Customer Attributes by Magenus",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Magenuts Team",
+            "email": "support@magenuts.com",
+            "homepage": "https://www.magenuts.com",
+            "role": "Technical Support"
+        }
+    ],
+    "keywords": [
+        "magento 2 module",
+        "magento 2 free modules",    
+        "magenuts customer attribute module",    
+        "magenuts customer attribute magento 2 module",    
+        "free magenuts customer attribute module",    
+        "free magenuts customer attribute magento 2 module",    
+        "magenuts"
+    ],  
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magenuts\\CustomerAttribute\\": ""
+        }
+    }
+}

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Magenuts Pvt Ltd.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://magenuts.com/Magenuts-Commerce-License.txt
+ *
+ * @category   Magenuts
+ * @package    Magenuts_CustomerAttribute
+ * @author     Magenuts Extension Team
+ * @copyright  Copyright (c) 2019 Magenuts Pvt Ltd. ( https://magenuts.com )
+ * @license    https://magenuts.com/Magenuts-Commerce-License.txt
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <!-- This node defines data for the component -->
+    <argument name="data" xsi:type="array">
+        <!-- js_config tells the component where are provider of the data and 
+        dependencies in the listing xml configuration-->
+        <item name="js_config" xsi:type="array">
+            <!--provider value consist of listing name used in layout file and 
+            uniqure data source name that will be used later.-->
+            <item name="provider" xsi:type="string">customer_attribute_listing.customer_attribute_listing_data_source</item>
+            <item name="deps" xsi:type="string">customer_attribute_listing.customer_attribute_listing_data_source</item>
+        </item>
+        <!-- spinner:takes name of node where columns of grid are defined. -->
+        <item name="spinner" xsi:type="string">customer_attribute_columns</item>
+        <!-- buttons: allows to add buttons to the top of grid -->
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <!-- name:used as element id -->
+                <item name="name" xsi:type="string">add</item>
+                <!-- label: used as button label -->
+                <item name="label" xsi:type="string" translate="true">Add New Attribute</item>
+                <!-- class: button class -->
+                <item name="class" xsi:type="string">primary</item>
+                <!-- url: link to the button -->
+                <item name="url" xsi:type="string">*/*/new</item>
+            </item>
+        </item>
+    </argument>
+    <!-- name used in dataSource must match the one used in 
+    argument/js_config/provider and argument/js_config/deps. -->
+    <dataSource name="customer_attribute_listing_data_source">
+        <!-- This node defines which class is responsible for preparing data for grid -->
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <!-- class agrument require unique name that will be matched in di.xml -->
+            <argument name="class" xsi:type="string">CustomerAttributeGridDataProvider</argument>
+             <!-- name used in dataSource must match the one used in 
+    argument/js_config/provider and argument/js_config/deps. -->
+            <argument name="name" xsi:type="string">customer_attribute_listing_data_source</argument>
+            <!-- primaryFieldName relates to the database primary column -->
+            <argument name="primaryFieldName" xsi:type="string">attribute_id</argument>
+            <!-- requestFieldName to the variable in http requests. -->
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <!-- update_url refers to the entry point where ajax calls for 
+                    filtering and sorting are send -->
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">attribute_id</item>
+                    </item>   
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <!-- javascript file that handles js part of sending and processing 
+                ajax calls for the grid. -->
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <!-- It defines knockout template responsible for handling the layout 
+        and all actions and by default points to Magento/Ui/view/base/web/templates/grid/toolbar.html -->
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+            </item>
+        </argument>
+        <!-- This node adds bookmark feature to the grid. It allows admin to set 
+        different profiles of the grid which displays differnt columns -->
+        <bookmark name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/bookmarks/bookmarks</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="mui/bookmark/save"/>
+                        <item name="deleteUrl" xsi:type="url" path="mui/bookmark/delete"/>
+                        <!-- Namespace must match name used in the layout file. -->
+                        <item name="namespace" xsi:type="string">customer_attribute_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <component name="columns_controls">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsData" xsi:type="array">
+                        <!-- provider follows pattern [listing_name_from_layout].[listing_name_from_layout]
+                        . [listing_columns_node_name]-->
+                        <item name="provider" xsi:type="string">customer_attribute_listing.customer_attribute_listing.customer_attribute_columns</item>
+                    </item>
+                    <!-- component refers to js file that displays grid and by default points to 
+                    Magento/Ui/view/base/web/js/grid/controls/columns.js which uses template
+                    Magento/Ui/view/base/web/templates/grid/controls/columns.html. -->
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/columns</item>
+                    <!-- The last item is displayArea which defines where column controls need to be displayed.
+                    It refers to getRegion('dataGridActions') 
+                    in file defined in container/argument/config/template 
+                    (default: Magento/Ui/view/base/web/templates/grid/toolbar.html). -->
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                </item>
+            </argument>
+        </component>
+        <!-- This node defines configuration for column filtering that is visible 
+        after clicking "Filters" button at the top right above the grid. -->
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <!-- provider follows pattern [listing_name_from_layout].[listing_name_from_layout]
+                        . [listing_columns_node_name]-->
+                    <item name="columnsProvider" xsi:type="string">customer_attribute_listing.customer_attribute_listing.customer_attribute_columns</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <!-- provider follows pattern [listing_name_from_layout].[listing_name_from_layout].
+                    [listing_top].[bookmarks] -->
+                        <item name="provider" xsi:type="string">customer_attribute_listing.customer_attribute_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <!-- provider follows pattern [listing_name_from_layout].[listing_name_from_layout]
+                         -->
+                        <item name="provider" xsi:type="string">customer_attribute_listing.customer_attribute_listing.listing_top.listing_filters</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">customer_attribute_listing.customer_attribute_listing.listing_top.bookmarks:current.columns.${ $.index }.visible</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </filters>
+       <!-- Defines pagination -->
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                         <!-- provider follows pattern [listing_name_from_layout].[listing_name_from_layout].
+                    [listing_top].[bookmarks] -->
+                        <item name="provider" xsi:type="string">customer_attribute_listing.customer_attribute_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">customer_attribute_listing.blog_post_listing.customer_attribute_columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+    <columns name="customer_attribute_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="storageConfig" xsi:type="array">
+                    <item name="provider" xsi:type="string">customer_attribute_listing.customer_attribute_listing.listing_top.bookmarks</item>
+                    <item name="namespace" xsi:type="string">current</item>
+                </item>
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">customer_attribute_listing.customer_attribute_listing.customer_attribute_columns.actions</item>
+                        <item name="target" xsi:type="string">applyAction</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">edit</item>
+                            <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                        </item>
+                    </item>
+                    <item name="controlVisibility" xsi:type="boolean">true</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">customer_attribute_columns.customer_attribute_columns.listing_top.bookmarks</item>
+                        <item name="root" xsi:type="string">columns.${ $.index }</item>
+                        <item name="namespace" xsi:type="string">current.${ $.storageConfig.root}</item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <!-- This node defines column with checkboxes for massaction to use. Its 
+        name is used in several nodes above after dot -->
+        <!-- <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="indexField" xsi:type="string">attribute_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>-->
+        <column name="attribute_code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <!-- Fiter type of column. Available values are text, select dateRenge textRange etc -->
+                    <item name="filter" xsi:type="string">text</item>
+                      <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">Attribute Code</item>
+                </item>
+            </argument>
+        </column>
+        <column name="frontend_label">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Default Label</item>
+                </item>
+            </argument>
+        </column>
+        <column name="is_required">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="editor" xsi:type="string">select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Required</item>
+                </item>
+            </argument>
+        </column>
+        <column name="is_user_defined">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenuts\CustomerAttribute\Model\Source\IsUserDefined</item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="editor" xsi:type="string">select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">System</item>
+                </item>
+            </argument>
+        </column>
+        <column name="is_visible">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="editor" xsi:type="string">select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Visible</item>
+                </item>
+            </argument>
+        </column>
+        <column name="sort_order">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Sort Order</item>
+                </item>
+            </argument>
+        </column>
+        <actionsColumn name="actions" class="Magenuts\CustomerAttribute\Ui\Component\Listing\Column\PostActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">107</item>
+                    <item name="indexField" xsi:type="string">attribute_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>
