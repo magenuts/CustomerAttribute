@@ -28,7 +28,7 @@ class Labels extends \Magento\Backend\Block\Template
     /**
      * @var string
      */
-    protected $_template = 'Magenuts_CustomerAttribute::Customer/attribute/labels.phtml';
+    protected $_template = 'Magenuts_CustomerAttribute::customer/attribute/labels.phtml';
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
